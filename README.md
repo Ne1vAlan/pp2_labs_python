@@ -1,4 +1,4 @@
-1st year of KBTU Aimurzaev Alan 
+1st year of KBTU Aimurzayev Alan 
 
 learning Python programming
 
