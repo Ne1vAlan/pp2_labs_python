@@ -1,5 +1,4 @@
 # Dictionary of movies
-import random
 
 def Cinema(movie):
     return movie["imdb"] > 5.5 

@@ -1,5 +1,4 @@
 # Dictionary of movies
-import random
 
 def Cinema(movie):
     return category == movie["category"] 
