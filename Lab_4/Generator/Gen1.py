@@ -1,10 +1,10 @@
 def Generator(numbers):
 
-    for numb in numbers:
+    for numb in range(numbers + 1):
         yield numb ** 2
 
 
-numbers = list(map(int, input().split()))
+numbers = int(input())
 result = Generator(numbers)
 
 while True:
