@@ -4,6 +4,7 @@ def Cinema(movie):
     return category == movie["category"] 
 
 
+
 category = input()
 movies = [
 {
