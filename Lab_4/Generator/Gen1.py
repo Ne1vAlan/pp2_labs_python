@@ -12,5 +12,3 @@ while True:
         print(next(result))
     except StopIteration:
         break
-    
-
