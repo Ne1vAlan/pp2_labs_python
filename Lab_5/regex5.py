@@ -1,6 +1,6 @@
 import re
 
-pattern= r"\b[A-Z]+[a-z]+\b"
+pattern= r"\b[a-z]+[b]$\b"
 
 def match(a):
     if re.fullmatch(pattern, a):
@@ -9,7 +9,7 @@ def match(a):
     else:
         print("Not match!")
     
-text = "Davai suda svoi string"
+text = "grab"
 match(text)
     
 
