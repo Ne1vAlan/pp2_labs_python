@@ -43,6 +43,12 @@ date2 = datetime.strptime(date2_str, "%Y-%m-%d") -- переводит стро�
 
 
 
+for prize in laureate.get("prizes", []):
+            if prize.get("category") == "phy": 
+                printf"{name} {surname}"
+
+
+
 
 
 
