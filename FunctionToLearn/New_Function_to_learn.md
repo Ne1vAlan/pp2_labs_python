@@ -39,3 +39,32 @@ with open(r"D:\gitHub\pp2_labs_python\text.json", "r", encoding="utf-8") as file
 
 date1 = datetime.strptime(date1_str, "%Y-%m-%d")
 date2 = datetime.strptime(date2_str, "%Y-%m-%d") -- переводит строку в в дни
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def odd_numbers():
+    num = 1
+    while True:
+        yield num ** 2 
+        num += 2  
+
+gen = odd_numbers()
+
+for _ in range(10):
+    print(next(gen))
