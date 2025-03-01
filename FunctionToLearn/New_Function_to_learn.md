@@ -17,8 +17,13 @@ pass - пропуск кода который не будет выдовать �
 str - перевод в текст (стринг)
 
 import - это как библиотека,
+
 import math - библиотека математических значений,
+
 import random - добовляет рандомные значения
+
+
+
 "random.randint(1, 20)" - выдаст рандомное значения от 1 до 20
 
 
@@ -29,6 +34,8 @@ with open(r"D:\gitHub\pp2_labs_python\text.json", "r", encoding="utf-8") as file
         name = episode.get("name", "")
         season = episode.get("season", "")  
         number = episode.get("number", "")  -- выбрать имнно то что нужно, по названию 
+
+        from datetime import datetime
 
 date1 = datetime.strptime(date1_str, "%Y-%m-%d")
 date2 = datetime.strptime(date2_str, "%Y-%m-%d") -- переводит строку в в дни
