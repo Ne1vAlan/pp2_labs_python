@@ -3,6 +3,8 @@ import random
 
 pygame.init()
 
+food_sound = pygame.mixer.Sound('Lab_8\Snake\8labka_catch.mp3')
+
 # экран
 WIDTH, HEIGHT = 800, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -115,6 +117,7 @@ while running:
 
             # сьел еду
             if new_x == food.x and new_y == food.y:
+                food_sound.play()
                 score += 1
                 food = generate_food()
 
