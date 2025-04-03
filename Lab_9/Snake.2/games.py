@@ -35,11 +35,25 @@ bg_surface.fill(BG_GRID)
 # шрифт
 font = pygame.font.SysFont("arial", 24)
 
-# класс змейки
+# класс блока змейки
 class SnakeBlock:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+
+# класс еды с весом и временем исчезновения
+class FoodItem:
+    def __init__(self, x, y, weight, ttl):
+        self.x = x
+        self.y = y
+        self.weight = weight
+        self.ttl = ttl
+
+    def is_expired(self):
+        return self.ttl <= 0
+
+    def tick(self):
+        self.ttl -= 1
 
 # начальная змейка
 snake_block = [SnakeBlock(13, 13)]
@@ -61,15 +75,16 @@ def draw_block(color, row, column):
     y = start_y + row * BLOCK + MARGIN * (row + 1)
     pygame.draw.rect(screen, color, [x, y, BLOCK, BLOCK])
 
-
-# генерация новой еды не на змейке
+# генерация еды не на змейке
 def generate_food():
     while True:
         x = random.randint(0, GRID_ROWS - 1)
         y = random.randint(0, GRID_COLS - 1)
         occupied = any(block.x == x and block.y == y for block in snake_block)
         if not occupied:
-            return SnakeBlock(x, y)
+            weight = random.choice([1, 2, 3])
+            ttl = random.randint(300, 500)  # 5–8 сек
+            return FoodItem(x, y, weight, ttl)
 
 # еда
 food = generate_food()
@@ -79,11 +94,11 @@ running = True
 while running:
     clock.tick(speed)
 
+    # управление 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            # управление стрелками
             if event.key == pygame.K_a and dy == 0:
                 dx, dy = 0, -1
             elif event.key == pygame.K_d and dy == 0:
@@ -97,37 +112,38 @@ while running:
             new_x = head.x + dx
             new_y = head.y + dy
 
-            # проверка выхода за границы поля
+
+            # проверка выхода за границу 
             if not (0 <= new_x < GRID_ROWS and 0 <= new_y < GRID_COLS):
-                print("Game Over: out of bounds!"," Your Score is", score)
+                print("Game Over: out of bounds!", "Your Score is", score)
                 running = False
                 break
 
-            # проверка столкновения с телом
+            # столкновение с теом
             if any(block.x == new_x and block.y == new_y for block in snake_block):
-                print("Game Over: hit itself!"," Your Score is", score)
+                print("Game Over: hit itself!", "Your Score is", score)
                 running = False
                 break
 
-            
             new_head = SnakeBlock(new_x, new_y)
             snake_block.append(new_head)
 
             # сьел еду
             if new_x == food.x and new_y == food.y:
-                score += 1
+                score += food.weight
                 food = generate_food()
 
-
-                # новый уровень
+                # уровень 
                 if score % 3 == 0:
                     level += 1
                     speed += 2
-
-            
             else:
-                # обычное движение  убираем хвост
                 snake_block.pop(0)
+
+            # уменьшаем таймер еды
+            food.tick()
+            if food.is_expired():
+                food = generate_food()
 
     screen.fill(BLACK)
     screen.blit(bg_surface, (start_x - BG_PADDING, start_y - BG_PADDING))
@@ -138,17 +154,27 @@ while running:
             color = GRAY if (row + column) % 2 == 0 else WHITE
             draw_block(color, row, column)
 
-    # еда
-    FOOD = (200, 50, 50)
-    draw_block(FOOD, food.x, food.y)
+    # еда с цветом в зависимости от веса
+    if food.weight == 1:
+        FOOD_COLOR = (200, 50, 50)
+    elif food.weight == 2:
+        FOOD_COLOR = (255, 165, 0)
+    else:
+        FOOD_COLOR = (255, 215, 0)
+    draw_block(FOOD_COLOR, food.x, food.y)
 
     # змейка
     for block in snake_block:
         draw_block(SNAKE, block.x, block.y)
-    
+
     # счёт и уровень
     text = font.render(f"Score: {score}  Level: {level}", True, WHITE)
     screen.blit(text, (2, 2))
+
+    # таймер еды 
+    seconds_left = max(1, food.ttl // 40)
+    timer_text = font.render(f"Food disappears in: {seconds_left}s", True, WHITE)
+    screen.blit(timer_text, (WIDTH - 250, 2))
 
     pygame.display.flip()
 
