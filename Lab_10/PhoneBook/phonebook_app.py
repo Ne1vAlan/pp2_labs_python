@@ -1,7 +1,7 @@
 import psycopg2
 import csv
 
-# 🔧 Параметры подключения
+#  Параметры подключения
 params = {
     "dbname": "PhoneBook",
     "user": "postgres",
@@ -26,7 +26,7 @@ cur.execute("""
 conn.commit()
 
 
-# 📞 Добавить контакт вручную
+#  Добавить контакт вручную
 def add_contact():
     name = input("Enter a name: ")
     phone = input("Enter phone number: ")
@@ -35,7 +35,7 @@ def add_contact():
     print("✅ Contact added")
 
 
-# 📋 Показать все контакты
+#  Показать все контакты
 def view_contacts():
     cur.execute("SELECT * FROM contacts")
     rows = cur.fetchall()
@@ -45,7 +45,7 @@ def view_contacts():
     print()
 
 
-# 🛠 Обновить контакт
+#  Обновить контакт
 def update_contact():
     contact_id = input("Enter the contact's ID to update: ")
     new_name = input("New Name: ")
@@ -55,7 +55,7 @@ def update_contact():
     print("🔄 The contact has been updated!")
 
 
-# 🗑 Удалить контакт
+#  Удалить контакт
 def delete_contact():
     contact_id = input("Enter the contact ID to delete: ")
     cur.execute("DELETE FROM contacts WHERE id = %s", (contact_id,))
@@ -63,7 +63,7 @@ def delete_contact():
     print("🗑️ Contact deleted!")
 
 
-# 📁 Загрузка из CSV
+#  Загрузка из CSV
 def load_from_csv():
     file_name = input("Enter the name of the CSV file (for example, contacts.csv): ")
     try:
@@ -79,7 +79,7 @@ def load_from_csv():
         print("⚠️ Error when uploading the CSV file:", e)
 
 
-# 🔁 Меню
+#  Меню
 while True:
     print("\n===== Menu PhoneBook =====")
     print("1. Add a contact")
